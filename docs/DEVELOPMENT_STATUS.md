@@ -8,6 +8,8 @@
 
 尚未完成：应用精简/新增、版本锁、真实 defconfig、定制 Actions、完整编译与设备测试。
 
-下一步：B 版成功后，以本路线独立基线实施应用层调整；处理待删除应用在原脚本中的源码校验依赖。若现有底层修正失效，停止报告。
+仓库已创建并推送：[zhaomeeng/Athena-LiBwrt](https://github.com/zhaomeeng/Athena-LiBwrt)，main，首轮审计提交 `f1fe749`。
+
+依赖进度：B 版真实 defconfig 已成功，正式编译 [Run 37241920846](https://github.com/zhaomeeng/Athena-VIKINGYFY/actions/runs/37241920846) 已触发；A 版仍仅完成接入审计。下一步：B 版成功后，以本路线独立基线实施应用层调整；处理待删除应用在原脚本中的源码校验依赖。若现有底层修正失效，停止报告。
 
 关键记录：[BASELINE.md](BASELINE.md)、[REQUIREMENTS.md](REQUIREMENTS.md)。
