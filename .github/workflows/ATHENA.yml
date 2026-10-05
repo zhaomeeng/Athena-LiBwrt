@@ -1,0 +1,54 @@
+name: Athena A LiBwrt
+run-name: Athena A - ${{ inputs.preview && 'native defconfig preview' || 'staged firmware build' }}
+on:
+  workflow_dispatch:
+    inputs:
+      preview:
+        description: Run actual native source preparation and defconfig; do not compile firmware
+        type: boolean
+        default: true
+        required: true
+permissions:
+  contents: write
+  actions: write
+concurrency:
+  group: athena-a-build
+  cancel-in-progress: false
+jobs:
+  prepare:
+    uses: ./.github/workflows/ATHENA-STAGE.yml
+    with:
+      stage: prepare
+      preview: ${{ inputs.preview }}
+  toolchain:
+    needs: prepare
+    if: ${{ !inputs.preview }}
+    uses: ./.github/workflows/ATHENA-STAGE.yml
+    with:
+      stage: toolchain
+      preceding: prepare
+      preview: false
+  rust:
+    needs: toolchain
+    if: ${{ !inputs.preview }}
+    uses: ./.github/workflows/ATHENA-STAGE.yml
+    with:
+      stage: rust
+      preceding: toolchain
+      preview: false
+  packages:
+    needs: rust
+    if: ${{ !inputs.preview }}
+    uses: ./.github/workflows/ATHENA-STAGE.yml
+    with:
+      stage: packages
+      preceding: rust
+      preview: false
+  images:
+    needs: packages
+    if: ${{ !inputs.preview }}
+    uses: ./.github/workflows/ATHENA-STAGE.yml
+    with:
+      stage: images
+      preceding: packages
+      preview: false

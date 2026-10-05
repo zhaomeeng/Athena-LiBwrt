@@ -34,3 +34,6 @@ wrt_core/deconfig/test.config
 AGENTS.md
 audit/
 artifacts/
+action_build/
+checkpoint-download/
+checkpoint-upload/
