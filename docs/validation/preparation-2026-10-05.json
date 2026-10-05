@@ -12,6 +12,18 @@
   "bash_syntax": "PASS",
   "shellcheck": "PASS",
   "actionlint": "PASS",
+  "cloud_preparation": {
+    "run_id": 37316216811,
+    "url": "https://github.com/zhaomeeng/Athena-LiBwrt/actions/runs/37316216811",
+    "head_sha": "fac24ac6eb9a7b04e4d31ee43cf3e6b18f128924",
+    "conclusion": "success",
+    "created_at": "2026-10-05T13:21:54Z",
+    "updated_at": "2026-10-05T13:22:20Z",
+    "local_and_linux_config_input_hashes_match": true,
+    "native_blob_and_core_checksums_match": true,
+    "protected_diff_bytes": 0,
+    "native_source_diff_bytes": 0
+  },
   "candidate_git_revisions": 38,
   "candidates_enforced_in_native_updater": false,
   "mihomo": {

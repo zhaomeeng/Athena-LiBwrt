@@ -12,6 +12,7 @@
 - 下载官方 Mihomo v1.19.32 ARM64 核心，压缩包 SHA256 与官方资产摘要一致，解压结果为 AArch64 ELF64；尚未装入镜像或在路由器执行。
 - `files/etc/uci-defaults/zz-athena-services` 在应用默认配置脚本之后执行，关闭两个代理的 UCI 开关并禁止两代理及 dockerd 自启。文件已准备，待镜像集成和实际验证。
 - 新建仅手动触发的 `ATHENA-PREP.yml`，检查脚本、配置输入和核心摘要，上传证据；没有 feeds/defconfig/编译/发布步骤。Bash、ShellCheck 和 actionlint 本地检查通过。
+- 云端 [Run 37316216811](https://github.com/zhaomeeng/Athena-LiBwrt/actions/runs/37316216811) 全部成功（21:21:54–21:22:20，Asia/Shanghai）。已下载证据，Linux 与本地两份配置输入 SHA256 完全一致，原生 Git blob 和核心摘要一致，两类保护差异均为零。成功结果仅对应准备工作范围。
 
 ## 复核命令
 
