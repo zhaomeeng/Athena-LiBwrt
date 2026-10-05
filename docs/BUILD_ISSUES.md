@@ -1,5 +1,9 @@
 # A 版构建记录
 
+## 2026-10-06 用户变更：移除 PassWall 后重编
+
+用户要求取消 A Run 37325796881 与 B Run 37297257083，两者已确认 cancelled；两个仓库均 Public。A 应用 overlay 禁用 PassWall 1/2 和专用核心，移除额外 PassWall2 取源及独立 Rust 任务，首启只关闭 OpenClash/Docker。镜像检查拒绝 PassWall 服务/配置文件，真实预检增加选中包的 Rust host 依赖检查；原生 build.sh/wrt_core 保持不变。旧预检和检查点属于旧配置，本轮重新预检/构建。
+
 ## 2026-10-05 首次真实预检：运行器链接权限
 
 [Run 37322723331](https://github.com/zhaomeeng/Athena-LiBwrt/actions/runs/37322723331)，框架 3eb632c。清理磁盘与安装依赖完成，在创建 /mnt/wrt_core 链接时 Permission denied；尚未取源或执行 defconfig。改为 sudo ln，仅修复可销毁运行器上的目录权限，不改作者源代码/配置。
