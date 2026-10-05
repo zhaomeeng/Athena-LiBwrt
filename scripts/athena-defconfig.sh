@@ -12,7 +12,7 @@ cp .config "$out/final.config"
 
 # Preserve platform/core configuration. New ordinary app dependencies are resolved
 # by native Kconfig; no explicit driver/target/firmware overrides are accepted.
-protected='^CONFIG_(TARGET|LINUX|KERNEL|NSS|ATH11K|IPQ|QCA|MAC80211|PACKAGE_(kmod-(qca|ath|usb|mmc|sdhci|phy|mdio)|ath11k-firmware|ipq-wifi|nss-|firewall|fullconenat|mmc-utils|cpufreq))'
+protected='^CONFIG_(TARGET|LINUX|KERNEL|NSS|ATH11K|IPQ|QCA|MAC80211|PACKAGE_(MAC80211_MESH|kmod-(qca|ath|usb|mmc|sdhci|phy|mdio)|ath11k-firmware|ipq-wifi|nss-|firewall|fullconenat|block-mount|fstools|mmc-utils|cpufreq))'
 normalize_protected() {
     sed -E 's/^# (CONFIG_[^ ]+) is not set$/\1=n/' "$1" | grep -E "$protected" | LC_ALL=C sort
 }
@@ -28,13 +28,13 @@ required=(luci luci-app-firewall luci-app-package-manager luci-app-openclash luc
     luci-theme-aurora luci-app-aurora-config docker dockerd containerd runc
     luci-app-dockerman luci-app-autoreboot luci-app-emmc-health luci-app-lucky
     luci-app-ttyd luci-app-upnp luci-app-wol luci-app-diskman luci-app-samba4
-    kmod-usb-storage kmod-qca-nss-drv kmod-qca-nss-ecm
+    block-mount fstools kmod-usb-storage kmod-qca-nss-drv kmod-qca-nss-ecm
     xray-core sing-box dnsmasq-full)
 for name in "${required[@]}"; do
     grep -qx "CONFIG_PACKAGE_$name=y" .config || { echo "Required package absent: $name" >&2; exit 1; }
 done
 excluded=(luci-app-passwall luci-app-adguardhome adguardhome luci-app-mosdns mosdns
-    luci-app-smartdns smartdns luci-app-easytier easytier luci-app-oaf oaf open-app-filter
+    luci-app-smartdns smartdns luci-app-easytier easytier luci-app-oaf oaf open-app-filter appfilter kmod-oaf
     luci-app-pbr pbr luci-app-sqm sqm-scripts sqm-scripts-nss luci-app-vlmcsd vlmcsd
     luci-app-quickstart quickstart luci-app-store luci-app-istorex luci-app-quickfile
     luci-app-homeproxy luci-app-ssr-plus luci-app-nikki nikki mihomo-meta luci-app-attendedsysupgrade)

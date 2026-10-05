@@ -3,7 +3,7 @@
 按交接方案提出，待用户确认后可整理为项目 AGENTS.md；本轮直接遵循用户已给出的规则。
 
 - 本目录只维护 ZqinKing/wrt_release + LiBwrt/openwrt-6.x 的 jdcloud_ipq60xx_libwrt 路线。
-- B 版完成后实施 A 版；保持此框架自己的 nss 和设备配置体系。
+- 用户已在 2026-10-05 后续指令中明确要求公开并编译 A，允许与 B 并行推进；保持此框架自己的 nss 和设备配置体系。
 - 只调整明确要求的应用、其依赖与构建/验证/交付；不主动修改 NSS、ath11k、QCN9074、DTS、核心驱动或 Firewall/NSS 实现。
 - 原作者底层阶段需留存来源证据，失败时停止报告。
 - 预检及云编译与实机稳定性结论分开；最终保存两种镜像、配置、来源、差异、manifest、packages 与 SHA256SUMS。

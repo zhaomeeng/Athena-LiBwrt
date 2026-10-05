@@ -27,7 +27,7 @@ cmp files/etc/openclash/core/clash_meta "$out/core.rootfs"
 rm -- "$out/core.rootfs"
 "$unsquashfs_bin" -o 6291456 -cat "$factory_image" usr/lib/opkg/status > "$out/athena-packages.db"
 for name in luci-app-openclash luci-app-passwall2 luci-theme-aurora luci-app-aurora-config docker dockerd \
-    luci-app-athena-led ath11k-firmware-qcn9074-ddwrt; do
+    luci-app-athena-led ath11k-firmware-qcn9074-ddwrt block-mount; do
     grep -qx "Package: $name" "$out/athena-packages.db" || { echo "Athena image missing package: $name" >&2; exit 1; }
 done
 for name in luci-app-passwall luci-app-homeproxy luci-app-adguardhome luci-app-mosdns luci-app-smartdns \

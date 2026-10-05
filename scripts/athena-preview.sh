@@ -56,8 +56,8 @@ while IFS= read -r line || [[ -n "$line" ]]; do
     key=${line%%=*}
     name=${key#CONFIG_PACKAGE_}
     case "$name" in
-        luci|luci-app-*|luci-theme-*|luci-lib-taskd|docker|dockerd|containerd|runc|\
-        adguardhome|mosdns|smartdns|easytier|oaf|open-app-filter|pbr|sqm-scripts|\
+        luci|luci-app-*|luci-theme-*|luci-lib-taskd|docker|dockerd|containerd|runc|block-mount|\
+        adguardhome|mosdns|smartdns|easytier|oaf|open-app-filter|appfilter|pbr|sqm-scripts|\
         sqm-scripts-nss|vlmcsd|quickstart|taskd|nikki|mihomo-meta) ;;
         *) echo "Package outside the authorized application overlay: $name" >&2; exit 1 ;;
     esac
@@ -74,7 +74,7 @@ diff -u "$out/baseline.input.config" "$out/custom.input.config" > "$out/applicat
 
 required=(luci luci-app-firewall luci-app-package-manager luci-app-openclash
     luci-app-passwall2 luci-theme-aurora luci-app-aurora-config
-    docker dockerd containerd runc luci-app-dockerman luci-app-autoreboot
+    docker dockerd containerd runc block-mount luci-app-dockerman luci-app-autoreboot
     luci-app-emmc-health luci-app-lucky luci-app-ttyd luci-app-upnp
     luci-app-wol luci-app-diskman luci-app-samba4 kmod-usb-storage)
 for name in "${required[@]}"; do
