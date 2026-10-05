@@ -11,7 +11,6 @@ feed:video	openwrt/video	openwrt-25.12	094bf58da6682f895255a35a84349a79dab4bf95
 native-feed:openwrt_bandix	timsaya/openwrt-bandix	main	c95b03d40b30c31e89c090aaf134750f05bf3f19
 native-feed:luci_app_bandix	timsaya/luci-app-bandix	main	159a6de184b8cbd0694b40f018e737d0a3c82e7e
 new-app:openclash	vernesong/OpenClash	master	c3a33c1d3407956fdf8f0e0b7c1a4c52e6ad9593
-new-app:passwall2	Openwrt-Passwall/openwrt-passwall2	main	2de5aee7a4c704a5b689fdab47b97a18ad11c1a2
 new-app:aurora-theme	eamonxg/luci-theme-aurora	master	84c27b66952e6fc4be60128067a6b88bfd34afb5
 new-app:aurora-config	eamonxg/luci-app-aurora-config	master	a5299ce0144859f47683ec3bc40805bf616f534f
 native	kenzok8/small-package	main	d8f141a6c6b8bcb492eff2d9da1aaab73355a252

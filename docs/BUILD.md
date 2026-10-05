@@ -7,7 +7,7 @@
 手动运行 `Athena A LiBwrt`（ATHENA.yml）：
 
 - `preview=true`：执行固定源码、作者全部原生更新阶段、应用来源接入、原版/定制真实 `make defconfig` 和保护比较，保存准备检查点；不编译固件。
-- `preview=false`：通过同样预检后依次编译工具链/内核、Rust host、目标软件包、镜像，最后校验雅典娜根文件系统、保存固件/包/证据并发布 Release。
+- `preview=false`：通过同样预检后依次编译工具链/内核、目标软件包、镜像，最后校验雅典娜根文件系统、保存固件/包/证据并发布 Release。按最新用户要求移除 PassWall 1/2 及专用核心，不执行独立 Rust host 编译；真实配置必须没有选中的 Rust host 消费包。
 
 正式编译必须先有对应输入的预检成功证据。框架、源码和全部 Git 取源锁由 `build.lock.tsv` 记录；原生 raw 下载固定提交与 SHA256，geoip 转换使用固定版本资产摘要。新增应用在同一源码树中接入，原版目录仍保留以便解析真实基线，排除应用不会进入最终配置。
 
@@ -29,6 +29,6 @@
 
 ## 固件验收
 
-仅收集 RE-CS-02 Factory/Sysupgrade，保留作者的 6144 KiB 内核分区布局。解包检查 QCN9074/IPQ6018 固件、Athena LED、两个代理、Docker、核心和最后执行的关闭服务脚本；核对 opkg 状态中的必要/排除包。提供最终 .config、原生/定制差异、源码与 feeds 实际版本、manifest、生成包归档和 SHA256SUMS。
+仅收集 RE-CS-02 Factory/Sysupgrade，保留作者的 6144 KiB 内核分区布局。解包检查 QCN9074/IPQ6018 固件、Athena LED、OpenClash、Docker、核心和最后执行的关闭服务脚本；核对 opkg 状态中的必要/排除包，拒绝 PassWall 1/2 配置和服务文件。提供最终 .config、原生/定制差异、源码与 feeds 实际版本、manifest、生成包归档和 SHA256SUMS。
 
 首启服务关闭脚本与核心需和镜像里的文件逐字节一致。编译及静态根文件系统检查不等于实机启动或 160MHz/NSS 稳定性通过。

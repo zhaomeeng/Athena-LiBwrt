@@ -1,5 +1,7 @@
 # 编译指南
 
+按用户最新指令，A/B 均公开，A 版移除 PassWall 1/2 及专用核心，仅保留 OpenClash 作为代理；独立 Rust 编译阶段已删除。
+
 本仓库的雅典娜 A 版使用 ZqinKing 原生 `jdcloud_ipq60xx_libwrt` 与 LiBwrt `25.12-nss`，仅定制应用层。入口为手动触发的 **Athena A LiBwrt**：先 `preview=true` 做真实预检，通过后 `preview=false` 分阶段编译。当前状态见 [开发状态](docs/DEVELOPMENT_STATUS.md)，固定取源、检查点恢复及交付说明见 [A 版构建](docs/BUILD.md)。以下保留原作者通用编译指南。
 
 本仓库用于按设备配置自动拉取 OpenWrt / ImmortalWrt / LiBwrt 源码、应用自定义补丁与软件包配置，并输出固件到 `firmware/` 目录。

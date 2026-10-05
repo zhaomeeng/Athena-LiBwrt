@@ -28,21 +28,13 @@ jobs:
       stage: toolchain
       preceding: prepare
       preview: false
-  rust:
+  packages:
     needs: toolchain
     if: ${{ !inputs.preview }}
     uses: ./.github/workflows/ATHENA-STAGE.yml
     with:
-      stage: rust
-      preceding: toolchain
-      preview: false
-  packages:
-    needs: rust
-    if: ${{ !inputs.preview }}
-    uses: ./.github/workflows/ATHENA-STAGE.yml
-    with:
       stage: packages
-      preceding: rust
+      preceding: toolchain
       preview: false
   images:
     needs: packages

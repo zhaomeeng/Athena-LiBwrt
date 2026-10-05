@@ -24,16 +24,19 @@ diff -u "$out/baseline.protected.config" "$out/final.protected.config" > "$out/p
 diff -u "$out/baseline.config" "$out/final.config" > "$out/application.diff" || {
     status=$?; [[ "$status" == 1 ]] || exit "$status";
 }
-required=(luci luci-app-firewall luci-app-package-manager luci-app-openclash luci-app-passwall2
+required=(luci luci-app-firewall luci-app-package-manager luci-app-openclash
     luci-theme-aurora luci-app-aurora-config docker dockerd containerd runc
     luci-app-dockerman luci-app-autoreboot luci-app-emmc-health luci-app-lucky
     luci-app-ttyd luci-app-upnp luci-app-wol luci-app-diskman luci-app-samba4
     block-mount fstools kmod-usb-storage kmod-qca-nss-drv kmod-qca-nss-ecm
-    xray-core sing-box dnsmasq-full)
+    dnsmasq-full)
 for name in "${required[@]}"; do
     grep -qx "CONFIG_PACKAGE_$name=y" .config || { echo "Required package absent: $name" >&2; exit 1; }
 done
-excluded=(luci-app-passwall luci-app-adguardhome adguardhome luci-app-mosdns mosdns
+excluded=(luci-app-passwall luci-app-passwall2 xray-core sing-box rust
+    shadowsocks-rust-sslocal shadowsocks-rust-ssserver shadowsocks-rust-ssmanager
+    shadowsocks-rust-ssservice shadowsocks-rust-ssurl shadowsocksr-libev-ssr-local simple-obfs-client v2ray-plugin
+    luci-app-adguardhome adguardhome luci-app-mosdns mosdns
     luci-app-smartdns smartdns luci-app-easytier easytier luci-app-oaf oaf open-app-filter appfilter kmod-oaf
     luci-app-pbr pbr luci-app-sqm sqm-scripts sqm-scripts-nss luci-app-vlmcsd vlmcsd
     luci-app-quickstart quickstart luci-app-store luci-app-istorex luci-app-quickfile
@@ -43,6 +46,26 @@ for name in "${excluded[@]}"; do
         echo "Excluded package selected: $name" >&2; exit 1
     fi
 done
+awk '
+    FNR==NR {
+        if ($0 ~ /^CONFIG_PACKAGE_.*=[ym]$/) {
+            name=$0; sub(/^CONFIG_PACKAGE_/, "", name); sub(/=[ym]$/, "", name); selected[name]=1
+        }
+        next
+    }
+    function flush( i) {
+        if (uses_rust) for (i=1; i<=count; i++)
+            if (selected[names[i]]) print source "\t" names[i]
+    }
+    /^Source-Makefile:/ {flush(); source=$2; count=0; uses_rust=0}
+    /^Package:/ {names[++count]=$2}
+    /rust\/host/ {uses_rust=1}
+    END {flush()}
+' .config tmp/.packageinfo > "$out/selected-rust-consumers.txt"
+[[ ! -s "$out/selected-rust-consumers.txt" ]] || {
+    cat "$out/selected-rust-consumers.txt"; echo 'Selected package still depends on Rust host.' >&2; exit 1;
+}
+gzip -c tmp/.packageinfo > "$out/packageinfo.gz"
 grep -qx 'CONFIG_TARGET_DEVICE_qualcommax_ipq60xx_DEVICE_jdcloud_re-cs-02=y' .config
 for name in kmod-ath11k kmod-ath11k-pci ath11k-firmware-qcn9074-ddwrt luci-app-athena-led; do
     grep -Eq "^CONFIG_PACKAGE_$name=[ym]$" .config

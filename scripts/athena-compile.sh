@@ -4,7 +4,7 @@ root="${GITHUB_WORKSPACE:?}"
 out="$root/artifacts"
 stage=${ATHENA_STAGE:?}
 [[ "$(pwd -P)" == /mnt/build_wrt ]]
-case "$stage" in toolchain|rust|packages|images) ;; *) exit 1 ;; esac
+case "$stage" in toolchain|packages|images) ;; *) exit 1 ;; esac
 rm -f "$out/compile-exit.txt"
 export CCACHE_MAXSIZE=1G
 before=$(sha256sum .config | cut -d' ' -f1)
@@ -19,7 +19,6 @@ setsid timeout --signal=TERM --kill-after=60s 240m bash -c '
     build_target() { make -j"$(nproc)" CONFIG_AUTOREMOVE=y "$@" || make -j1 V=s CONFIG_AUTOREMOVE=y "$@"; }
     case "$ATHENA_STAGE" in
         toolchain) build_target tools/install && build_target toolchain/install && build_target target/compile ;;
-        rust) build_target package/feeds/packages/rust/host/compile ;;
         packages) build_target package/compile ;;
         images) build_target ;;
     esac

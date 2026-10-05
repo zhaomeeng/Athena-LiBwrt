@@ -4,7 +4,7 @@ root="${GITHUB_WORKSPACE:?}"
 out="$root/artifacts"
 mode=${1:?save or restore}
 stage=${2:?checkpoint stage}
-case "$stage" in prepare|toolchain|rust|packages|images) ;; *) exit 1 ;; esac
+case "$stage" in prepare|toolchain|packages|images) ;; *) exit 1 ;; esac
 [[ "$(pwd -P)" == /mnt/build_wrt ]]
 input_hash() {
     (cd "$root"; sha256sum build.lock.tsv config/athena-apps.config scripts/athena-{preview,adapter,source,defconfig,core}.sh \
@@ -65,7 +65,7 @@ case "$mode" in
         grep -qx 'PASS: native platform and protected config unchanged; required applications selected; exclusions satisfied.' \
             .athena-evidence/preflight.txt
         [[ -x files/etc/uci-defaults/zz-athena-services && -x files/etc/openclash/core/clash_meta ]]
-        [[ -L package/feeds/packages/rust && -f package/feeds/packages/rust/Makefile ]]
+        [[ -L package/feeds/luci/luci-app-firewall && -f package/feeds/luci/luci-app-firewall/Makefile ]]
         mv "$out/runner-space.txt" "$out/runner-space-${ATHENA_STAGE}.txt"
         cp -a .athena-evidence/. "$out/"
         rm -- "$src/tree.tar.zst"

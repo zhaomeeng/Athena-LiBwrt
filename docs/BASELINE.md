@@ -24,6 +24,6 @@
 
 保留 Firewall/Package Manager/TTYD/AutoReboot/eMMC Health/Lucky/UPnP/WOL/DiskMan/Samba4/Athena LED 和 USB 基础。
 
-删除 PassWall1、AdGuardHome、MosDNS、SmartDNS、EasyTier、OAF、PBR、SQM、vlmcsd、QuickStart、Store/iStoreX、QuickFile；添加 OpenClash、PassWall2、Aurora Theme/Config、Docker/dockerd 与当前体系必要依赖。首次启动关闭两个代理及 Docker。
+删除 PassWall1/2、AdGuardHome、MosDNS、SmartDNS、EasyTier、OAF、PBR、SQM、vlmcsd、QuickStart、Store/iStoreX、QuickFile；添加 OpenClash、Aurora Theme/Config、Docker/dockerd 与当前体系必要依赖。首次启动关闭 OpenClash 及 Docker；原始需求中的 PassWall2 已按用户最新指令移除。
 
 必须先运行 config_preview 与真实 defconfig，再验证设备、无线、NSS、USB/eMMC、LuCI、Firewall，之后才正式编译。

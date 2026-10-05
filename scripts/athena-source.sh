@@ -43,7 +43,6 @@ source "$root/wrt_core/modules/custom_feed.sh"
 source "$root/scripts/athena-adapter.sh"
 custom="$tree/custom_feed"
 sync_sparse_packages_to_feed_dir https://github.com/vernesong/OpenClash.git master "$custom" OpenClash luci-app-openclash
-sync_sparse_packages_to_feed_dir https://github.com/Openwrt-Passwall/openwrt-passwall2.git main "$custom" PassWall2 luci-app-passwall2
 sync_repo_root_package_to_feed_dir https://github.com/eamonxg/luci-theme-aurora.git master "$custom" Aurora luci-theme-aurora
 sync_repo_root_package_to_feed_dir https://github.com/eamonxg/luci-app-aurora-config.git master "$custom" AuroraConfig luci-app-aurora-config
 for path in feeds/luci/applications/luci-app-openclash feeds/luci/applications/luci-app-passwall2 \
