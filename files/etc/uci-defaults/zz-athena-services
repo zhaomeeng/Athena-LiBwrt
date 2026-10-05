@@ -1,0 +1,13 @@
+#!/bin/sh
+# Run after the proxy packages have created their default UCI sections.
+# Initial wired / 80 MHz / 160 MHz checks run with both proxies and Docker off.
+# Keep this file for a retry if a required config or init script is missing.
+uci -q set openclash.config.enable='0' || exit 1
+uci -q commit openclash || exit 1
+uci -q set passwall2.@global[0].enabled='0' || exit 1
+uci -q commit passwall2 || exit 1
+for service in openclash passwall2 dockerd; do
+    [ -x "/etc/init.d/$service" ] || exit 1
+    "/etc/init.d/$service" disable || exit 1
+done
+exit 0

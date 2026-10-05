@@ -1,0 +1,5 @@
+scripts/*.sh text eol=lf
+config/*.config text eol=lf
+config/*.tsv text eol=lf
+files/etc/uci-defaults/* text eol=lf
+.github/workflows/ATHENA-PREP.yml text eol=lf

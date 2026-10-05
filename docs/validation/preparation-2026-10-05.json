@@ -1,0 +1,142 @@
+{
+  "date": "2026-10-05",
+  "timezone": "Asia/Shanghai",
+  "scope": "Input preparation only; not make defconfig or compiled firmware",
+  "framework": "4bf1cc018f8f1f08a0e1564f1cd16a38ccb004bc",
+  "source_candidate": "3a3d0b08595530070ad9cd8a20c0ae4ea3e77f70",
+  "native_inputs_unchanged": true,
+  "protected_input_diff_bytes": 0,
+  "normalized_baseline_input_sha256": "400f0df2dd817f830c827ee36d7c0ee649f6ae524c2044bf91f2ffe522c23550",
+  "normalized_custom_input_sha256": "9b01f9b4ae30169769ecd582e981e5bd70e7f46d8217a2596fbb68b1eb35ffe3",
+  "target_override_guard": "PASS",
+  "bash_syntax": "PASS",
+  "shellcheck": "PASS",
+  "actionlint": "PASS",
+  "candidate_git_revisions": 38,
+  "candidates_enforced_in_native_updater": false,
+  "mihomo": {
+    "version": "v1.19.32",
+    "archive_sha256": "9dd862e28b46ff7d775f169cceebc28deccaa0a9e804237d421cd2571e0caba0",
+    "extracted_sha256": "c80df2ca5159567804da883401e0118908fc1155e05df2baf3dbd4d3ecfc3754",
+    "archive_hash_verified": true,
+    "elf": "64-bit little-endian AArch64",
+    "executed_on_router": false
+  },
+  "package_source_files_checked": [
+    {
+      "repo": "LiBwrt/openwrt-6.x",
+      "path": "feeds.conf.default",
+      "commit": "3a3d0b08595530070ad9cd8a20c0ae4ea3e77f70",
+      "sha256": "a2e03bf609e2899e7e81af91aaf846ee1d851bd31ac4c29cef4024b010dcb491"
+    },
+    {
+      "repo": "LiBwrt/openwrt-6.x",
+      "path": "target/linux/qualcommax/image/ipq60xx.mk",
+      "commit": "3a3d0b08595530070ad9cd8a20c0ae4ea3e77f70",
+      "sha256": "3d37a4329d13c8be5d2185db64893e46e8299c5a65e3e5aa1a4de6c72f4c47d0"
+    },
+    {
+      "repo": "LiBwrt/openwrt-6.x",
+      "path": "package/firmware/ath11k-firmware/Makefile",
+      "commit": "3a3d0b08595530070ad9cd8a20c0ae4ea3e77f70",
+      "sha256": "8e3fabd2b0a385b60ba03eb4a57008288e44a84cf39360c13958926003e32dd9"
+    },
+    {
+      "repo": "immortalwrt/packages",
+      "path": "utils/docker/Makefile",
+      "commit": "84bd86384928955b568988ca0e09e2c78c75173d",
+      "sha256": "61426fc4206fb530a4bfdf3fd395b44d6b0c818388560d0041a728dde4b78b98"
+    },
+    {
+      "repo": "immortalwrt/packages",
+      "path": "utils/dockerd/Makefile",
+      "commit": "84bd86384928955b568988ca0e09e2c78c75173d",
+      "sha256": "44aea8585e78623c5904e408c7281eb37d048f55c5eb2a4e4b5b294fd46c39e7"
+    },
+    {
+      "repo": "immortalwrt/packages",
+      "path": "utils/containerd/Makefile",
+      "commit": "84bd86384928955b568988ca0e09e2c78c75173d",
+      "sha256": "ef7cf0ba5dcddb87edf09aa617d53f632ec6fc84bda98092d4fbd6264018609a"
+    },
+    {
+      "repo": "immortalwrt/packages",
+      "path": "utils/runc/Makefile",
+      "commit": "84bd86384928955b568988ca0e09e2c78c75173d",
+      "sha256": "d6107904867fdca3848951f9c5976feffe8aea47d0bc1db05f7015a8603d902c"
+    },
+    {
+      "repo": "immortalwrt/luci",
+      "path": "collections/luci/Makefile",
+      "commit": "d6167ea0645cbd1327708d85f94824f42d0eb872",
+      "sha256": "84fc459378fa796b4e8e7fd867444a089d5be8cc582f0f57ade699590bda2402"
+    },
+    {
+      "repo": "immortalwrt/luci",
+      "path": "applications/luci-app-firewall/Makefile",
+      "commit": "d6167ea0645cbd1327708d85f94824f42d0eb872",
+      "sha256": "00badd5d4995786561b3466ce5b2b5ee4f09357b03d2452098084411552647b8"
+    },
+    {
+      "repo": "immortalwrt/luci",
+      "path": "applications/luci-app-package-manager/Makefile",
+      "commit": "d6167ea0645cbd1327708d85f94824f42d0eb872",
+      "sha256": "234561b56808263cc060896e0576d15b22a624c9be288cd118e00b784d571e58"
+    },
+    {
+      "repo": "vernesong/OpenClash",
+      "path": "luci-app-openclash/Makefile",
+      "commit": "c3a33c1d3407956fdf8f0e0b7c1a4c52e6ad9593",
+      "sha256": "e23bb2f9cab67bf9e99dc7bce9a1f9ab9f9e4bd3b2b46275705d737c1e23a97b"
+    },
+    {
+      "repo": "vernesong/OpenClash",
+      "path": "luci-app-openclash/root/etc/config/openclash",
+      "commit": "c3a33c1d3407956fdf8f0e0b7c1a4c52e6ad9593",
+      "sha256": "e562fce54b9a5c2d916265a5433be86bd0566464c2e60a0a0ed63d9e523a4955"
+    },
+    {
+      "repo": "Openwrt-Passwall/openwrt-passwall2",
+      "path": "luci-app-passwall2/Makefile",
+      "commit": "2de5aee7a4c704a5b689fdab47b97a18ad11c1a2",
+      "sha256": "27680327494ec1f664078e036b4b5a507062a9d15086a56e35e9c608531d0724"
+    },
+    {
+      "repo": "Openwrt-Passwall/openwrt-passwall2",
+      "path": "luci-app-passwall2/root/usr/share/passwall2/0_default_config",
+      "commit": "2de5aee7a4c704a5b689fdab47b97a18ad11c1a2",
+      "sha256": "5751ddc9bab7a7b32234ce8288166e3de57a9f205c3545af94b4ef5eb4cabdf1"
+    },
+    {
+      "repo": "eamonxg/luci-theme-aurora",
+      "path": "Makefile",
+      "commit": "84c27b66952e6fc4be60128067a6b88bfd34afb5",
+      "sha256": "db5f9747cbf2f14f292a66d0d89edac1031213d272d26a12965bf3cb23b32014"
+    },
+    {
+      "repo": "eamonxg/luci-app-aurora-config",
+      "path": "Makefile",
+      "commit": "a5299ce0144859f47683ec3bc40805bf616f534f",
+      "sha256": "e787dda4ac2da01b7813acb45be460a0a3041c7187af4bda0839ea2a010ce980"
+    },
+    {
+      "repo": "lisaac/luci-app-dockerman",
+      "path": "applications/luci-app-dockerman/Makefile",
+      "commit": "6fd9937954e0b080bf07967182d714ea21fe7eb1",
+      "sha256": "e64a2699049e1cb1c4a80cd893236703bd1d864894738e871ffccde6e7c319db"
+    },
+    {
+      "repo": "NONGFAH/luci-app-athena-led",
+      "path": "Makefile",
+      "commit": "f8eeb3119008ac0e429fc642c125512f9253ec1b",
+      "sha256": "55fe8bbbc0cedc43ec1c7c4651893412b43558b36ab57780869aec1c9cb5cd1b"
+    }
+  ],
+  "pending": [
+    "native source/feed update locking",
+    "application source stage integration and duplicate resolution",
+    "real baseline/custom make defconfig",
+    "image compilation and rootfs proof",
+    "router runtime tests"
+  ]
+}

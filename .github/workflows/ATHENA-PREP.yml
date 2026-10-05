@@ -1,0 +1,57 @@
+name: A route input preparation
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: athena-a-preparation
+  cancel-in-progress: false
+
+jobs:
+  input-preview:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Check script syntax
+        run: |
+          bash -n scripts/athena-preview.sh
+          bash -n scripts/athena-core.sh
+          sh -n files/etc/uci-defaults/zz-athena-services
+          shellcheck scripts/athena-preview.sh scripts/athena-core.sh files/etc/uci-defaults/zz-athena-services
+
+      - name: Assemble native and application inputs
+        run: bash scripts/athena-preview.sh
+
+      - name: Verify ARM64 OpenClash core
+        run: bash scripts/athena-core.sh
+
+      - name: Save preparation evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: A-input-preparation-${{ github.run_id }}
+          retention-days: 14
+          if-no-files-found: error
+          path: |
+            audit/config-preview/
+            audit/openclash-core/SHA256SUMS
+            audit/openclash-core/core-pass.txt
+            config/source-candidates.tsv
+
+      - name: Explain validation scope
+        run: |
+          cat >> "$GITHUB_STEP_SUMMARY" <<'EOF'
+          A 版输入准备通过：原生配置未改、应用输入选择符合要求、ARM64 核心校验通过。
+
+          本流程没有执行源码/feeds 准备、make defconfig、固件编译或设备测试。
+          source-candidates.tsv 是候选版本清单，尚未接入原生更新脚本。
+          EOF
