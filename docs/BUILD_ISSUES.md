@@ -11,3 +11,9 @@
 人工复核应用差异发现删除 QuickFile 会取消其传递依赖 block-mount。为保留原有 USB 挂载基础，显式选回 block-mount，并纳入配置/镜像门槛，重新预检；同时检查实际 OAF 后端 appfilter/kmod-oaf 不回选。
 
 NSS 配置片段写有 HIGH，但固定 qca-nss-drv 的 Config.in 明确 HIGH 仅适用于 ipq807x，ipq60xx 原生默认 MEDIUM。作者原版与定制解析结果均为 MEDIUM，NSS 11.4/IPQ 256/ath11k 512M 及 recycler/mesh 设置相同；保留该原生结果，不强行移植另一平台的 HIGH。
+
+## 第三次真实预检：USB 挂载依赖修正通过
+
+[Run 37324802148](https://github.com/zhaomeeng/Athena-LiBwrt/actions/runs/37324802148)，框架 f9b26a7，23:27:04–23:32:01（Asia/Shanghai）。已下载证据核对：block-mount/fstools=y，appfilter/kmod-oaf 未选中，protected.diff/native-source.diff 均为空，原生与定制平台补丁逐字节一致。最终配置 SHA256 7dc041d8e28db33c85ddbce2e52ab1dc5189f075bcb8ba54792b76120f740b8b；准备检查点 173569165 字节。运行器清理后可用空间约 117 GB。
+
+随后启动正式 [Run 37325796881](https://github.com/zhaomeeng/Athena-LiBwrt/actions/runs/37325796881)，preview=false，固定同一框架提交。此预检证明取源、真实 defconfig 与准备检查点保存通过，不等于编译、检查点恢复或上机验证通过。
