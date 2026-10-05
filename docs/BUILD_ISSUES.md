@@ -1,5 +1,7 @@
 # A 版构建记录
 
+Run 37335414789 的配置/保护比较通过，但检查器尚未接受合法条件名 PACKAGE_smartdns-ui（含连字符），已补齐。用该 Run 的实际 final.config/packageinfo 全量复核：有效 Rust 消费包为空，Ruby YJIT/smartdns-ui 未启用，protected.diff/native-source.diff 为空；配置 SHA256 ea1c79fc6d216cba35b9f2505e65c152a9a2f277ff5fc1bbf12906163af55d1c。之后重新运行完整 A 预检，未修改固件源配置。
+
 依赖检查的条件解析曾把 python-setuptools-rust/host 的后缀误当作 rust/host，已改为精确匹配独立 Rust 目标；Ruby 选项未输出到最终配置时按禁用处理。用 B Run 37333460335 的真实配置/包元数据回归通过：现配置无有效 Rust 消费包，单独启用 YJIT 或 Shadowsocks Rust 均能检出。A Run 37333444831 在安装依赖阶段取消，以运行同一修正；未发生固件底层错误。
 
 ## 无 PassWall 首次预检：Ruby YJIT 的额外 Rust 依赖
