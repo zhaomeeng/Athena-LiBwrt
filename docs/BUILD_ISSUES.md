@@ -1,5 +1,7 @@
 # A 版构建记录
 
+依赖检查的条件解析曾把 python-setuptools-rust/host 的后缀误当作 rust/host，已改为精确匹配独立 Rust 目标；Ruby 选项未输出到最终配置时按禁用处理。用 B Run 37333460335 的真实配置/包元数据回归通过：现配置无有效 Rust 消费包，单独启用 YJIT 或 Shadowsocks Rust 均能检出。A Run 37333444831 在安装依赖阶段取消，以运行同一修正；未发生固件底层错误。
+
 ## 无 PassWall 首次预检：Ruby YJIT 的额外 Rust 依赖
 
 Run 37331824442 排除 PassWall/Xray/Sing-box/Shadowsocks Rust 后，受保护差异为空，但 Ruby 的 RUBY_ENABLE_YJIT 默认 y，Build-Depends 中 RUBY_ENABLE_YJIT:rust/host 仍生效。关闭该应用解释器的可选 YJIT，保留 OpenClash 所需 Ruby/YAML；Rust 消费检查按实际启用条件解析，禁用/启用条件的本地回归通过。包元数据压缩上传以便复核，不改变底层配置。
