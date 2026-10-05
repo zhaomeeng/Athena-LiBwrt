@@ -10,14 +10,14 @@
 
 本轮新增：公开前完成本地 Git 全部历史的凭据特征和敏感文件名检查，仓库已设 Public；取源锁/适配器、原生完整更新阶段入口、新增应用及首启/核心集成、真实 defconfig 门槛、分阶段检查点与编译/镜像校验 Actions 已接入。Bash/ShellCheck/actionlint 和原生输入预检通过。
 
-最新真实预检 [Run 37324802148](https://github.com/zhaomeeng/Athena-LiBwrt/actions/runs/37324802148) 成功，框架 f9b26a7；已下载证据核对：九个 feeds 与锁一致，原生/定制平台源码相同，受保护配置差异为空，block-mount/fstools 保留，OAF 后端排除。最终配置 SHA256 为 7dc041d8e28db33c85ddbce2e52ab1dc5189f075bcb8ba54792b76120f740b8b。详见 [预检记录](validation/preview-37324802148.json)。
+最新无 PassWall 真实预检 [Run 37336977204](https://github.com/zhaomeeng/Athena-LiBwrt/actions/runs/37336977204) 成功，框架 85d4788；已下载证据核对：原生/定制平台源码相同，受保护配置差异为空，选中软件包的 Rust host 依赖为空，PassWall 1/2、Xray、Sing-box、Shadowsocks Rust 与 Ruby YJIT 均未启用。最终配置 SHA256 为 ea1c79fc6d216cba35b9f2505e65c152a9a2f277ff5fc1bbf12906163af55d1c。详见 [预检记录](validation/preview-37336977204.json)。
 
 旧正式构建 [Run 37325796881](https://github.com/zhaomeeng/Athena-LiBwrt/actions/runs/37325796881) 已按用户要求取消，无固件产物。此前预检/配置摘要属于含 PassWall 的旧配置，不能作为本轮的有效预检或恢复输入。
 
-本轮已调整：应用 overlay 排除 PassWall 1/2、Xray、Sing-box、Shadowsocks Rust 等专用核心；删除独立 Rust 编译任务；首启脚本只关闭 OpenClash 与 Docker；配置/镜像检查拒绝 PassWall 残留，并核对选中包的 Rust host 依赖。当前待新版真实云端预检。
+本轮已调整：应用 overlay 排除 PassWall 1/2、Xray、Sing-box、Shadowsocks Rust 等专用核心；关闭 Ruby 可选 YJIT，保留 OpenClash 所需 Ruby；删除独立 Rust 编译任务；首启脚本只关闭 OpenClash 与 Docker；配置/镜像检查拒绝 PassWall 残留，并核对选中包的 Rust host 依赖。仓库为 Public，新正式构建 [Run 37338264335](https://github.com/zhaomeeng/Athena-LiBwrt/actions/runs/37338264335) 已启动，框架 85d4788，preview=false；目前准备阶段运行中，尚无固件产物。
 
 仓库：[zhaomeeng/Athena-LiBwrt](https://github.com/zhaomeeng/Athena-LiBwrt)，main。
 
-下一步：新版真实预检通过后立即重新编译，工具链/内核、软件包、镜像三段分别限四小时，预留启动、恢复和保存检查点时间。若原生底层修正失效或受保护配置改变，停止报告。B 已取消旧构建、公开并按同一应用需求重编，底层保持独立。
+下一步：完成本次正式构建并核验 Factory/Sysupgrade、软件包清单和 SHA-256。工具链/内核、软件包、镜像三段分别限四小时，预留启动、恢复和保存检查点时间；超时后保存检查点，续编仍需实际验证。若原生底层修正失效或受保护配置改变，停止报告。B 已取消旧构建、公开并按同一应用需求重编，底层保持独立。设备启动与运行尚未验证。
 
 关键记录：[BUILD.md](BUILD.md)、[PREPARATION.md](PREPARATION.md)、[BASELINE.md](BASELINE.md)、[REQUIREMENTS.md](REQUIREMENTS.md)。
