@@ -46,10 +46,13 @@ for name in "${excluded[@]}"; do
         echo "Excluded package selected: $name" >&2; exit 1
     fi
 done
+grep -q '^Source-Makefile:' tmp/.packageinfo
+gzip -c tmp/.packageinfo > "$out/packageinfo.gz"
 awk '
     FNR==NR {
-        if ($0 ~ /^CONFIG_PACKAGE_.*=[ym]$/) {
-            name=$0; sub(/^CONFIG_PACKAGE_/, "", name); sub(/=[ym]$/, "", name); selected[name]=1
+        if ($0 ~ /^CONFIG_.*=[ym]$/) {
+            name=$0; sub(/^CONFIG_/, "", name); sub(/=[ym]$/, "", name); enabled[name]=1
+            if (name ~ /^PACKAGE_/) {sub(/^PACKAGE_/, "", name); selected[name]=1}
         }
         next
     }
@@ -59,13 +62,24 @@ awk '
     }
     /^Source-Makefile:/ {flush(); source=$2; count=0; uses_rust=0}
     /^Package:/ {names[++count]=$2}
-    /rust\/host/ {uses_rust=1}
-    END {flush()}
+    /^Build-Depends(\/host)?:/ {
+        for (j=2; j<=NF; j++) if ($j ~ /rust\/host$/) {
+            dep=$j
+            if (dep=="rust/host") uses_rust=1
+            else {
+                sub(/:rust\/host$/, "", dep)
+                if (dep ~ /^![A-Za-z0-9_]+$/) {sub(/^!/, "", dep); if (!enabled[dep]) uses_rust=1}
+                else if (dep ~ /^[A-Za-z0-9_]+$/) {if (enabled[dep]) uses_rust=1}
+                else {print "Unsupported Rust dependency condition: " dep > "/dev/stderr"; bad=1}
+            }
+        }
+    }
+    END {flush(); if (bad) exit 1}
 ' .config tmp/.packageinfo > "$out/selected-rust-consumers.txt"
+grep -qx '# CONFIG_RUBY_ENABLE_YJIT is not set' .config
 [[ ! -s "$out/selected-rust-consumers.txt" ]] || {
     cat "$out/selected-rust-consumers.txt"; echo 'Selected package still depends on Rust host.' >&2; exit 1;
 }
-gzip -c tmp/.packageinfo > "$out/packageinfo.gz"
 grep -qx 'CONFIG_TARGET_DEVICE_qualcommax_ipq60xx_DEVICE_jdcloud_re-cs-02=y' .config
 for name in kmod-ath11k kmod-ath11k-pci ath11k-firmware-qcn9074-ddwrt luci-app-athena-led; do
     grep -Eq "^CONFIG_PACKAGE_$name=[ym]$" .config

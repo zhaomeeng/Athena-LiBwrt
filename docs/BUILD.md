@@ -11,6 +11,8 @@
 
 正式编译必须先有对应输入的预检成功证据。框架、源码和全部 Git 取源锁由 `build.lock.tsv` 记录；原生 raw 下载固定提交与 SHA256，geoip 转换使用固定版本资产摘要。新增应用在同一源码树中接入，原版目录仍保留以便解析真实基线，排除应用不会进入最终配置。
 
+Ruby/YAML 解释器保留供 OpenClash 使用，关闭其默认开启的可选 YJIT（会引入 Rust host）。选中包的有效 Rust 构建依赖必须为空，packageinfo.gz 保留元数据证据。
+
 `wrt_core/` 和 `build.sh` 保持作者原样。临时入口只固定 SCRIPT_DIR 并延迟 main，随后加载取源适配器；作者所有阶段/平台修正函数及调用顺序保留。应用来源补齐之后，再次比较 target/linux、package/kernel、package/firmware 和 include/netfilter.mk 的原生处理差异，要求完全一致。
 
 定制配置在 make defconfig 前组合，因此不调用原生 build.sh 的 QuickFile 分支去删除 luci-light。保留原生 LuCI/uhttpd 依赖与作者默认主题，Aurora 作为额外选择安装。

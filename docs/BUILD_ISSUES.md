@@ -1,5 +1,9 @@
 # A 版构建记录
 
+## 无 PassWall 首次预检：Ruby YJIT 的额外 Rust 依赖
+
+Run 37331824442 排除 PassWall/Xray/Sing-box/Shadowsocks Rust 后，受保护差异为空，但 Ruby 的 RUBY_ENABLE_YJIT 默认 y，Build-Depends 中 RUBY_ENABLE_YJIT:rust/host 仍生效。关闭该应用解释器的可选 YJIT，保留 OpenClash 所需 Ruby/YAML；Rust 消费检查按实际启用条件解析，禁用/启用条件的本地回归通过。包元数据压缩上传以便复核，不改变底层配置。
+
 ## 2026-10-06 用户变更：移除 PassWall 后重编
 
 用户要求取消 A Run 37325796881 与 B Run 37297257083，两者已确认 cancelled；两个仓库均 Public。A 应用 overlay 禁用 PassWall 1/2 和专用核心，移除额外 PassWall2 取源及独立 Rust 任务，首启只关闭 OpenClash/Docker。镜像检查拒绝 PassWall 服务/配置文件，真实预检增加选中包的 Rust host 依赖检查；原生 build.sh/wrt_core 保持不变。旧预检和检查点属于旧配置，本轮重新预检/构建。

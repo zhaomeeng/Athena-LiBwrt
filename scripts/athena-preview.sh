@@ -46,10 +46,11 @@ normalize() {
 }
 normalize "${inputs[@]}" > "$out/baseline.input.config"
 
-# The overlay is limited to package selections; driver/kernel/target keys fail.
+# Package selections plus disabling optional Ruby YJIT; driver/kernel/target keys fail.
 while IFS= read -r line || [[ -n "$line" ]]; do
     line=${line%$'\r'}
     [[ -z "$line" || "$line" == \#* ]] && continue
+    [[ "$line" != CONFIG_RUBY_ENABLE_YJIT=n ]] || continue
     [[ "$line" =~ ^CONFIG_PACKAGE_[a-zA-Z0-9_-]+=[ynm]$ ]] || {
         echo "Invalid application overlay line: $line" >&2; exit 1;
     }
