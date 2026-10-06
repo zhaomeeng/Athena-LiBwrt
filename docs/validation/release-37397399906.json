@@ -1,0 +1,50 @@
+{
+  "date": "2026-10-06",
+  "release_url": "https://github.com/zhaomeeng/Athena-LiBwrt/releases/tag/athena-a-37397399906",
+  "release_id": 404493056,
+  "published": true,
+  "source_run": 37397399906,
+  "source_run_conclusion": "failure only at original Release upload",
+  "compile_and_image_checks": "success",
+  "framework_commit": "efde7d29ea952b5ec7684b164ae9e4c801bb4865",
+  "release_recovery_run": 37437950779,
+  "release_recovery_conclusion": "success",
+  "publication_fix_commit": "eb3e61436f856215c79becf28714219fcaab2ada",
+  "asset_count": 46,
+  "all_remote_asset_digests_verified": true,
+  "verification_method": "GitHub recovery job verified original artifact SHA256SUMS, staged nonempty release assets, compared every remote asset digest and tag; repeated live API comparison locally",
+  "firmware_and_packages_unchanged": true,
+  "release_sha256sums": "9980a6add525645140a924d8c80311c3ef331f19723a0ebbe6a1cf29c6ec4052",
+  "image_public_key_matches_build_key": true,
+  "verified_package_index_signatures": 12,
+  "protected_diff_bytes": 0,
+  "native_source_diff_bytes": 0,
+  "key_assets": [
+    {
+      "name": "empty-evidence.tar.gz",
+      "size": 178,
+      "digest": "sha256:25590faf84c12877009dcba2912eb0c1c4ba73f20aaa85087213dffc9d7c6d41"
+    },
+    {
+      "name": "final.config",
+      "size": 366488,
+      "digest": "sha256:ea1c79fc6d216cba35b9f2505e65c152a9a2f277ff5fc1bbf12906163af55d1c"
+    },
+    {
+      "name": "libwrt-qualcommax-ipq60xx-jdcloud_re-cs-02-squashfs-factory.bin",
+      "size": 126771504,
+      "digest": "sha256:70970a46ca9085a08ba4ad050f7a5236fcb2e67c3029e39cb97b17086dc69125"
+    },
+    {
+      "name": "libwrt-qualcommax-ipq60xx-jdcloud_re-cs-02-squashfs-sysupgrade.bin",
+      "size": 126106409,
+      "digest": "sha256:6de4bca4cfbaa5c5dbd35ea9f6c8cb5c17f647f4a8b964b7857de75563a089e2"
+    },
+    {
+      "name": "packages.tar.gz",
+      "size": 133589553,
+      "digest": "sha256:575e6039fc232fa26d0a0ace7a3822815f68e0606804b9ad540d8b8b2022dfaf"
+    }
+  ],
+  "device_validation": "not performed"
+}

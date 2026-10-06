@@ -6,6 +6,8 @@
 
 新增 scripts/athena-release-assets.sh：先校验原产物的 SHA256SUMS，再建立独立发布目录；非空文件保持原样，所有空诊断文件收入非空 empty-evidence.tar.gz，并为发布目录重新生成/验证 SHA256SUMS。原 Actions 产物不变。工作流调用同一脚本，Release 标签固定指向实际构建提交，补发不使用新的文档/修复提交冒充构建来源。Bash、ShellCheck、actionlint、有效产物准备及损坏哈希拒绝回归通过；现有固件补发结果见状态页和发布验证记录。
 
+本地大文件传输反复中断后改为 GitHub 内部补发。初次补发 Run 37437284517 的 artifact/清单校验成功，但 GITHUB_TOKEN 在创建指向旧构建提交的 Release 时返回 HTTP 403；预建标签后仍被拒绝。使用已授权 CLI 创建原构建标签及无资产草稿，恢复工作流先核对标签，仅上传到空草稿并发布，不向 Actions 保存个人 Token。[Run 37437950779](https://github.com/zhaomeeng/Athena-LiBwrt/actions/runs/37437950779) 全部成功；Release athena-a-37397399906 的 46 个资产摘要与发布清单一致，标签为原构建 efde7d2。再次用实时 API 验证通过，固件/包未重新编译或修改。
+
 ## 2026-10-06 镜像阶段失败与签名修复
 
 正式 [Run 37338264335](https://github.com/zhaomeeng/Athena-LiBwrt/actions/runs/37338264335) 于 02:38:32（Asia/Shanghai）失败。工具链、软件包任务及三次检查点恢复成功；镜像任务的 package/index 找不到 key-build，退出 2，未发布固件。不是超时或磁盘耗尽。最终配置仍为 ea1c79fc6d216cba35b9f2505e65c152a9a2f277ff5fc1bbf12906163af55d1c，protected.diff/native-source.diff/Rust 消费包均为空。

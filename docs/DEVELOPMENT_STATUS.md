@@ -2,7 +2,7 @@
 
 更新时间：2026-10-06（Asia/Shanghai）。
 
-当前状态：[Run 37397399906](https://github.com/zhaomeeng/Athena-LiBwrt/actions/runs/37397399906)（构建框架 efde7d2）工具链/软件包/镜像编译、根文件系统验收和固件 artifact 上传全部成功；镜像公钥一致，12 个软件包索引签名通过，底层保护差异为空。仅 Release 上传零字节 native-source.diff 时失败。本轮已修复上传流程，原 Actions 产物保持不变，正在下载、校验并补发同一次构建的 Release，不重新编译。设备验证尚未完成。
+当前状态：[Run 37397399906](https://github.com/zhaomeeng/Athena-LiBwrt/actions/runs/37397399906)（构建框架 efde7d2）工具链/软件包/镜像编译、根文件系统验收和固件 artifact 上传全部成功；镜像公钥一致，12 个软件包索引签名通过，底层保护差异为空。零字节资产上传已修复，[A 版 Release](https://github.com/zhaomeeng/Athena-LiBwrt/releases/tag/athena-a-37397399906) 已公开；[补发任务 37437950779](https://github.com/zhaomeeng/Athena-LiBwrt/actions/runs/37437950779) 全部成功，46 个远端资产摘要及原构建标签核对通过，原固件/软件包字节不变。证据见 validation/release-37397399906.json。原编译 Run 保留发布失败的历史结论，设备验证尚未完成。
 
 目标：A 版 ZqinKing + LiBwrt。用户最新要求取消含 PassWall 的两条构建、移除 PassWall 1/2 与专用核心、公开两库并重新编译；两路线独立并行。
 
@@ -20,6 +20,6 @@
 
 仓库：[zhaomeeng/Athena-LiBwrt](https://github.com/zhaomeeng/Athena-LiBwrt)，main。
 
-下一步：完成本次 Release 补发并核对远端资产；下载后在刷机电脑再次校验 SHA-256，按 BUILD.md/REQUIREMENTS.md 执行实机启动、NSS、有线和 80/160MHz 验证。A/B 底层保持独立；本轮只处理 A 的上传与交付。
+下一步：下载后在刷机电脑再次校验 SHA-256，按 BUILD.md/REQUIREMENTS.md 执行实机启动、NSS、有线和 80/160MHz 验证。用户本轮追加要求检查/修复 B，B 编译与镜像检查也已通过，发布错误已修复并公开 Release；A/B 底层保持独立，无云端编译/发布阻塞。
 
 关键记录：[BUILD.md](BUILD.md)、[PREPARATION.md](PREPARATION.md)、[BASELINE.md](BASELINE.md)、[REQUIREMENTS.md](REQUIREMENTS.md)。
