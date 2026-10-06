@@ -1,0 +1,89 @@
+name: Athena A Release recovery
+run-name: Athena A - recover release for build ${{ inputs.build_run }}
+on:
+  workflow_dispatch:
+    inputs:
+      build_run:
+        description: Original Athena A build run with successful image checks and firmware artifact
+        required: true
+        type: string
+permissions:
+  actions: read
+  contents: write
+concurrency:
+  group: athena-a-release-${{ inputs.build_run }}
+  cancel-in-progress: false
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      GH_TOKEN: ${{ github.token }}
+      BUILD_RUN: ${{ inputs.build_run }}
+    steps:
+      - name: Checkout upload repair
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Verify original build and image checks
+        id: source
+        run: |
+          [[ "$BUILD_RUN" =~ ^[0-9]+$ ]]
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$BUILD_RUN" > build-run.json
+          jq -e --arg repo "$GITHUB_REPOSITORY" '.path == ".github/workflows/ATHENA.yml" and .head_repository.full_name == $repo and .status == "completed"' build-run.json
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$BUILD_RUN/jobs?per_page=100" > build-jobs.json
+          jq -e '[.jobs[] | select(.name == "images / LiBwrt / images") | .steps[] | select(.name == "Compile stage with four-hour deadline" or .name == "Verify and package Athena images" or .name == "Upload firmware")] | length == 3 and all(.conclusion == "success")' build-jobs.json
+          revision=$(jq -r .head_sha build-run.json)
+          [[ "$revision" =~ ^[0-9a-f]{40}$ ]]
+          echo "revision=$revision" >> "$GITHUB_OUTPUT"
+      - name: Download original verified firmware
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: athena-a-firmware-${{ inputs.build_run }}
+          run-id: ${{ inputs.build_run }}
+          github-token: ${{ github.token }}
+          path: firmware-original/
+      - name: Verify checksums and prepare nonempty assets
+        run: bash scripts/athena-release-assets.sh firmware-original release-upload
+      - name: Publish recovered release
+        env:
+          BUILD_REVISION: ${{ steps.source.outputs.revision }}
+        run: |
+          tag="athena-a-$BUILD_RUN"
+          if gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo 'Release already exists; inspect assets before any replacement.' >&2
+            exit 1
+          fi
+          cp release-upload/RELEASE.md release-notes.md
+          printf '\n发布补发：固件来自原构建 Run %s，未重新编译；空差异证据保存在 empty-evidence.tar.gz，使用发布版 SHA256SUMS 校验资产。\n' "$BUILD_RUN" >> release-notes.md
+          gh release create "$tag" release-upload/* --repo "$GITHUB_REPOSITORY" --target "$BUILD_REVISION" --title "雅典娜 A 版 LiBwrt $BUILD_RUN" --notes-file release-notes.md
+      - name: Verify published assets and build tag
+        env:
+          BUILD_REVISION: ${{ steps.source.outputs.revision }}
+        run: |
+          tag="athena-a-$BUILD_RUN"
+          gh api "repos/$GITHUB_REPOSITORY/releases/tags/$tag" > release-verified.json
+          count=0
+          while read -r digest name; do
+            jq -e --arg name "$name" --arg digest "sha256:$digest" '.assets[] | select(.name == $name and .state == "uploaded" and .size > 0 and .digest == $digest)' release-verified.json >/dev/null
+            count=$((count + 1))
+          done < release-upload/SHA256SUMS
+          checksum=$(sha256sum release-upload/SHA256SUMS | cut -d' ' -f1)
+          jq -e --arg digest "sha256:$checksum" --argjson count "$((count + 1))" '.draft == false and (.assets | length) == $count and any(.assets[]; .name == "SHA256SUMS" and .digest == $digest)' release-verified.json
+          gh api "repos/$GITHUB_REPOSITORY/git/ref/tags/$tag" --jq .object.sha > release-tag.txt
+          [[ "$(cat release-tag.txt)" == "$BUILD_REVISION" ]]
+          printf 'PASS: all %s remote asset digests match; tag matches original build.\n' "$((count + 1))" > release-verification.txt
+      - name: Save publication evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: athena-a-release-evidence-${{ github.run_id }}
+          path: |
+            build-run.json
+            build-jobs.json
+            release-verified.json
+            release-tag.txt
+            release-verification.txt
+            release-upload/SHA256SUMS
+          retention-days: 14
+          if-no-files-found: warn

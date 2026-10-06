@@ -40,3 +40,5 @@ Ruby/YAML 解释器保留供 OpenClash 使用，关闭其默认开启的可选 Y
 发布前运行 scripts/athena-release-assets.sh：先校验原 Actions 固件产物的 SHA256SUMS；保留非空资产，将零字节诊断文件（正常为空的保护差异等）收入 empty-evidence.tar.gz，再为实际发布的完整资产集合生成和校验新的 SHA256SUMS。原 Actions 产物与固件字节不变；Release 的零字节证据从归档中读取。Release 标签指向实际构建的框架提交。
 
 若仅发布失败，下载对应 athena-a-firmware-RUN 产物，校验并运行同一准备脚本后补发该 Run 的 Release，无需重新编译。不得将新的文档提交当作已构建的框架提交，也不得无检查覆盖已有资产。
+
+本地大文件传输不稳定时，可手动运行 Athena A Release recovery（ATHENA-RELEASE.yml），输入原 build_run。该任务要求原镜像编译/检查/固件上传均成功，再在 GitHub 内部下载原 artifact、验证清单并补发；发布后逐项核对远端资产摘要和构建标签，保存发布验证证据。已有 Release 时停止，避免自动覆盖。
