@@ -50,13 +50,17 @@ jobs:
           BUILD_REVISION: ${{ steps.source.outputs.revision }}
         run: |
           tag="athena-a-$BUILD_RUN"
-          if gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
-            echo 'Release already exists; inspect assets before any replacement.' >&2
-            exit 1
-          fi
+          tag_revision=$(gh api "repos/$GITHUB_REPOSITORY/git/ref/tags/$tag" --jq .object.sha)
+          [[ "$tag_revision" == "$BUILD_REVISION" ]]
           cp release-upload/RELEASE.md release-notes.md
           printf '\n发布补发：固件来自原构建 Run %s，未重新编译；空差异证据保存在 empty-evidence.tar.gz，使用发布版 SHA256SUMS 校验资产。\n' "$BUILD_RUN" >> release-notes.md
-          gh release create "$tag" release-upload/* --repo "$GITHUB_REPOSITORY" --target "$BUILD_REVISION" --title "雅典娜 A 版 LiBwrt $BUILD_RUN" --notes-file release-notes.md
+          if gh release view "$tag" --repo "$GITHUB_REPOSITORY" --json isDraft,assets > existing-release.json 2>/dev/null; then
+            jq -e '.isDraft == true and (.assets | length) == 0' existing-release.json
+            gh release upload "$tag" release-upload/* --repo "$GITHUB_REPOSITORY"
+            gh release edit "$tag" --repo "$GITHUB_REPOSITORY" --draft=false --notes-file release-notes.md
+          else
+            gh release create "$tag" release-upload/* --repo "$GITHUB_REPOSITORY" --verify-tag --title "雅典娜 A 版 LiBwrt $BUILD_RUN" --notes-file release-notes.md
+          fi
       - name: Verify published assets and build tag
         env:
           BUILD_REVISION: ${{ steps.source.outputs.revision }}

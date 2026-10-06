@@ -41,4 +41,4 @@ Ruby/YAML 解释器保留供 OpenClash 使用，关闭其默认开启的可选 Y
 
 若仅发布失败，下载对应 athena-a-firmware-RUN 产物，校验并运行同一准备脚本后补发该 Run 的 Release，无需重新编译。不得将新的文档提交当作已构建的框架提交，也不得无检查覆盖已有资产。
 
-本地大文件传输不稳定时，可手动运行 Athena A Release recovery（ATHENA-RELEASE.yml），输入原 build_run。该任务要求原镜像编译/检查/固件上传均成功，再在 GitHub 内部下载原 artifact、验证清单并补发；发布后逐项核对远端资产摘要和构建标签，保存发布验证证据。已有 Release 时停止，避免自动覆盖。
+本地大文件传输不稳定时，可手动运行 Athena A Release recovery（ATHENA-RELEASE.yml），输入原 build_run。先用已授权 GitHub CLI 创建指向原构建提交的 athena-a-RUN 标签；若 GITHUB_TOKEN 创建 Release 返回 403，也可用 CLI 创建无资产草稿。该任务要求原镜像编译/检查/固件上传均成功，再在 GitHub 内部下载原 artifact、验证清单并补发；发布后逐项核对远端资产摘要和构建标签，保存发布验证证据。仅接受标签与原构建一致的无资产草稿，已有非空 Release 时停止，避免自动覆盖。
