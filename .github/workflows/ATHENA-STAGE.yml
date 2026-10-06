@@ -114,7 +114,8 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "athena-a-$GITHUB_RUN_ID" action_build/upload/* --title "雅典娜 A 版 LiBwrt $GITHUB_RUN_ID" --notes-file action_build/upload/RELEASE.md
+          bash scripts/athena-release-assets.sh action_build/upload release-upload
+          gh release create "athena-a-$GITHUB_RUN_ID" release-upload/* --target "$GITHUB_SHA" --title "雅典娜 A 版 LiBwrt $GITHUB_RUN_ID" --notes-file release-upload/RELEASE.md
       - name: Preserve configuration and diagnostics
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4

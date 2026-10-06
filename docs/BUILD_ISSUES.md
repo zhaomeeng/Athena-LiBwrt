@@ -1,5 +1,11 @@
 # A 版构建记录
 
+## 2026-10-06 固件通过验收，Release 拒绝零字节资产
+
+[Run 37397399906](https://github.com/zhaomeeng/Athena-LiBwrt/actions/runs/37397399906) 所有编译阶段、镜像验收与固件 artifact 上传均成功；仅 Publish firmware release 在 11:08:09（Asia/Shanghai）失败。GitHub 上传 native-source.diff 返回 HTTP 400: Bad Content-Length，该文件正常为零字节。固件 artifact 11387975025 已保存，不需要重编。镜像公钥与构建公钥一致，12 个软件包索引签名全部通过，protected.diff/native-source.diff 均为空。
+
+新增 scripts/athena-release-assets.sh：先校验原产物的 SHA256SUMS，再建立独立发布目录；非空文件保持原样，所有空诊断文件收入非空 empty-evidence.tar.gz，并为发布目录重新生成/验证 SHA256SUMS。原 Actions 产物不变。工作流调用同一脚本，Release 标签固定指向实际构建提交，补发不使用新的文档/修复提交冒充构建来源。Bash、ShellCheck、actionlint、有效产物准备及损坏哈希拒绝回归通过；现有固件补发结果见状态页和发布验证记录。
+
 ## 2026-10-06 镜像阶段失败与签名修复
 
 正式 [Run 37338264335](https://github.com/zhaomeeng/Athena-LiBwrt/actions/runs/37338264335) 于 02:38:32（Asia/Shanghai）失败。工具链、软件包任务及三次检查点恢复成功；镜像任务的 package/index 找不到 key-build，退出 2，未发布固件。不是超时或磁盘耗尽。最终配置仍为 ea1c79fc6d216cba35b9f2505e65c152a9a2f277ff5fc1bbf12906163af55d1c，protected.diff/native-source.diff/Rust 消费包均为空。
