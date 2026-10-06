@@ -14,7 +14,7 @@
 
 旧正式构建 [Run 37325796881](https://github.com/zhaomeeng/Athena-LiBwrt/actions/runs/37325796881) 已按用户要求取消，无固件产物。此前预检/配置摘要属于含 PassWall 的旧配置，不能作为本轮的有效预检或恢复输入。
 
-本轮已调整：应用 overlay 排除 PassWall 1/2、Xray、Sing-box、Shadowsocks Rust 等专用核心；关闭 Ruby 可选 YJIT，保留 OpenClash 所需 Ruby；删除独立 Rust 编译任务；首启脚本只关闭 OpenClash 与 Docker；配置/镜像检查拒绝 PassWall 残留，并核对选中包的 Rust host 依赖。仓库为 Public，新正式构建 [Run 37338264335](https://github.com/zhaomeeng/Athena-LiBwrt/actions/runs/37338264335) 已启动，框架 85d4788，preview=false；目前准备阶段运行中，尚无固件产物。
+本轮已调整：应用 overlay 排除 PassWall 1/2、Xray、Sing-box、Shadowsocks Rust 等专用核心；关闭 Ruby 可选 YJIT，保留 OpenClash 所需 Ruby；删除独立 Rust 编译任务；首启脚本只关闭 OpenClash 与 Docker。仓库为 Public。[Run 37338264335](https://github.com/zhaomeeng/Athena-LiBwrt/actions/runs/37338264335) 工具链/软件包成功，镜像阶段因检查点未传递 key-build 而失败，未发布固件；三次源树恢复和原生保护比较通过。已修复最终阶段用原生目标重建 base-files/密钥，增加镜像公钥与软件包索引签名一致性检查，并纠正 IPQ6018 分段固件检查。详见 BUILD_ISSUES.md。Bash/ShellCheck/actionlint/差异检查通过，待修复后新正式运行。
 
 仓库：[zhaomeeng/Athena-LiBwrt](https://github.com/zhaomeeng/Athena-LiBwrt)，main。
 

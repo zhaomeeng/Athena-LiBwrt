@@ -1,5 +1,15 @@
 # A 版构建记录
 
+## 2026-10-06 镜像阶段失败与签名修复
+
+正式 [Run 37338264335](https://github.com/zhaomeeng/Athena-LiBwrt/actions/runs/37338264335) 于 02:38:32（Asia/Shanghai）失败。工具链、软件包任务及三次检查点恢复成功；镜像任务的 package/index 找不到 key-build，退出 2，未发布固件。不是超时或磁盘耗尽。最终配置仍为 ea1c79fc6d216cba35b9f2505e65c152a9a2f277ff5fc1bbf12906163af55d1c，protected.diff/native-source.diff/Rust 消费包均为空。
+
+原因：检查点排除 key-build*，却保留 base-files 的配置标记和含旧公钥的打包结果；原生 Build/Configure 因已完成而不再生成密钥。修复为最终任务先运行原生 package/base-files/clean、package/base-files/compile，再执行完整构建，使新签名密钥与镜像内公钥一起更新。交付检查逐一验证软件包索引签名，并比较 Factory 镜像内的公钥。不传递私钥，不关闭签名，不修改原生源码/配置。
+
+同时修复与 B 相同的 IPQ6018 文件名检查：固定固件修订 0c817c46568ef6871042c7e2efc95ac24a1f02e6 的 IPQ6018 使用 q6_fw.mdt、m3_fw.mdt 和分段文件，并无 amss.bin；QCN9074 仍使用 amss.bin。检查对应元数据、board-2.bin 和全部非空分段。依据为固定源码 package/firmware/ath11k-firmware/Makefile 与 laipeng668/ath11k-firmware-ddwrt 的对应 Git 树。无线包、驱动、NSS 与设备定义保持原样。
+
+Bash、ShellCheck、actionlint、git diff --check 通过。修复后的真实密钥生成、镜像公钥及签名检查由新正式构建验证，当前不能宣称交付或实机验证成功。
+
 Run 37335414789 的配置/保护比较通过，但检查器尚未接受合法条件名 PACKAGE_smartdns-ui（含连字符），已补齐。用该 Run 的实际 final.config/packageinfo 全量复核：有效 Rust 消费包为空，Ruby YJIT/smartdns-ui 未启用，protected.diff/native-source.diff 为空；配置 SHA256 ea1c79fc6d216cba35b9f2505e65c152a9a2f277ff5fc1bbf12906163af55d1c。之后重新运行完整 A 预检，未修改固件源配置。
 
 依赖检查的条件解析曾把 python-setuptools-rust/host 的后缀误当作 rust/host，已改为精确匹配独立 Rust 目标；Ruby 选项未输出到最终配置时按禁用处理。用 B Run 37333460335 的真实配置/包元数据回归通过：现配置无有效 Rust 消费包，单独启用 YJIT 或 Shadowsocks Rust 均能检出。A Run 37333444831 在安装依赖阶段取消，以运行同一修正；未发生固件底层错误。

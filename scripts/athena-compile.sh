@@ -20,7 +20,10 @@ setsid timeout --signal=TERM --kill-after=60s 240m bash -c '
     case "$ATHENA_STAGE" in
         toolchain) build_target tools/install && build_target toolchain/install && build_target target/compile ;;
         packages) build_target package/compile ;;
-        images) build_target ;;
+        # Checkpoints exclude key-build*, but preserve base-files configure stamps
+        # and its packaged public key. Rebuild this package in the final job so
+        # native Build/Configure regenerates keys and embeds the matching public key.
+        images) build_target package/base-files/clean && build_target package/base-files/compile && build_target ;;
     esac
 ' &
 compiler_pid=$!
