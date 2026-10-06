@@ -2,6 +2,8 @@
 
 更新时间：2026-10-06（Asia/Shanghai）。
 
+当前运行：签名与分段固件检查修复已推送，正式 [Run 37397399906](https://github.com/zhaomeeng/Athena-LiBwrt/actions/runs/37397399906) 于 09:05:39（Asia/Shanghai）启动，框架 efde7d2，preview=false；准备阶段运行中。新 Run 从固定源码完整重编，配置不变，尚无通过交付检查的固件。启动证据见 [validation/build-37397399906-start.json](validation/build-37397399906-start.json)。
+
 目标：A 版 ZqinKing + LiBwrt。用户最新要求取消含 PassWall 的两条构建、移除 PassWall 1/2 与专用核心、公开两库并重新编译；两路线独立并行。
 
 已完成：原生接入审计；新增独立应用 overlay、候选来源清单（38 个 Git 修订 + Mihomo）、输入预检脚本、核心下载校验脚本、首次启动关闭服务脚本和手动准备 Actions。原生 config_preview、配置合并/增删/保护检查、目标修改拒绝检查、Bash/ShellCheck/actionlint 通过。ARM64 Mihomo SHA256/ELF 校验通过。作者 build.sh/wrt_core 未改。
